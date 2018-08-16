@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Cookie;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -25,15 +28,43 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/index';
+
+    /**
+     * Login Proxy
+     */
+    private $loginProxy;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(LoginProxy $loginProxy)
     {
         $this->middleware('guest')->except('logout');
+        $this->loginProxy = $loginProxy;
     }
+
+    public function login(LoginRequest $request) {
+        $email = $request->get('email');
+        $password = $request->get('password');
+
+        if (!$token = $this->loginProxy->attemptLogin($email, $password)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return response()->json($token);
+    }
+
+    public function refresh(Request $request) {
+        return response()->json($this->loginProxy->attemptRefresh());
+    }
+
+    public function logout() {
+        $this->loginProxy->logout();
+
+        return response()->json(null, 204);
+    }
+
 }
