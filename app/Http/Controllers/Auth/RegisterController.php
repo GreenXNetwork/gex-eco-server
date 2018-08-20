@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\LoginHelper;
 use App\User;
+use App\Models\Role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -32,13 +34,19 @@ class RegisterController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Login Proxy
+     */
+    private $loginProxy;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(LoginProxy $loginProxy)
     {
         $this->middleware('guest');
+        $this->loginProxy = $loginProxy;
     }
 
     /**
@@ -73,6 +81,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        $investorRole = Role::where('name', '=', 'investor')->first();
         $language = $request->language ? $request->language : 'en';
         $user = User::create([
             'name' => $request->name,
@@ -80,15 +89,12 @@ class RegisterController extends Controller
             'password' => bcrypt($request->password),
             'language' => $language,
         ]);
+        $user->attachRole($investorRole);
 
-        $token = auth()->login($user);
-        return $this->respondWithToken($token);
-    }
+        $tokenData = LoginHelper::login($this->loginProxy, $user->email, $request->password);
 
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-        ]);
+        $role = $user->roles()->get()->pluck('name')->toArray();
+
+        return LoginHelper::buildResponse($tokenData, $role);
     }
 }

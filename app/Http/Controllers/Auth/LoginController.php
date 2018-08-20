@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Cookie;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\LoginHelper;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -19,7 +21,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -46,22 +48,26 @@ class LoginController extends Controller
         $this->loginProxy = $loginProxy;
     }
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request)
+    {
         $email = $request->get('email');
         $password = $request->get('password');
 
-        if (!$token = $this->loginProxy->attemptLogin($email, $password)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        $tokenData = LoginHelper::login($this->loginProxy, $email, $password);
 
-        return response()->json($token);
+        $user = User::where('email', $email)->first();
+        $role = $user->roles()->get()->pluck('name')->toArray();
+
+        return LoginHelper::buildResponse($tokenData, $role);
     }
 
-    public function refresh(Request $request) {
+    public function refresh(Request $request)
+    {
         return response()->json($this->loginProxy->attemptRefresh());
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->loginProxy->logout();
 
         return response()->json(null, 204);
