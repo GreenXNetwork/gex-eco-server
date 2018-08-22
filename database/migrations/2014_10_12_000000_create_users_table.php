@@ -34,10 +34,6 @@ class CreateUsersTable extends Migration
             $table->string('identity_image')->nullable();
             $table->tinyInteger('kyc_status')->default(1);
             $table->string('referred_by')->nullable();
-            $table->unsignedInteger('kyc_approved_by')->nullable();
-            $table->timestamp('kyc_approved_at')->nullable();
-            $table->tinyInteger('auto_level_up')->default(1);
-            $table->unsignedInteger('level')->default(0);
             $table->unsignedInteger('address_id')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->dateTime('last_login_on')->nullable();

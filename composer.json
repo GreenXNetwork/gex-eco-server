@@ -10,7 +10,8 @@
         "laravel/framework": "5.6.*",
         "laravel/passport": "^6.0",
         "laravel/tinker": "^1.0",
-        "optimus/api-consumer": "^0.2.3"
+        "optimus/api-consumer": "^0.2.3",
+        "zizaco/entrust": "^1.9"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
