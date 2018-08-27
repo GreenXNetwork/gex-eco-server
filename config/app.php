@@ -162,7 +162,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Optimus\ApiConsumer\Provider\LaravelServiceProvider::class,
-
+        Webpatser\Countries\CountriesServiceProvider::class,
     ],
 
     /*
@@ -212,7 +212,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Countries' => Webpatser\Countries\CountriesFacade::class,
     ],
 
 ];

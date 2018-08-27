@@ -21,3 +21,9 @@ Route::middleware('api')->post('/login', 'Auth\LoginController@login');
 Route::middleware('api')->post('/refresh', 'Auth\LoginController@refresh');
 Route::middleware('api')->post('/register', 'Auth\RegisterController@register');
 Route::middleware('auth:api')->post('/logout', 'Auth\LoginController@logout');
+
+/* BEGIN - USER PROFILE */
+Route::resources([
+    'profile' => 'API\UserProfileController',
+]);
+/* END - USER PROFILE */
