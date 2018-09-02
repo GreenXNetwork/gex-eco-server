@@ -12,7 +12,8 @@
         "laravel/tinker": "^1.0",
         "optimus/api-consumer": "^0.2.3",
         "zizaco/entrust": "^1.9",
-        "webpatser/laravel-countries": "dev-master"
+        "webpatser/laravel-countries": "dev-master",
+        "adrianmejias/laravel-states": "~1.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

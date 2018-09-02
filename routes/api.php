@@ -23,7 +23,9 @@ Route::middleware('api')->post('/register', 'Auth\RegisterController@register');
 Route::middleware('auth:api')->post('/logout', 'Auth\LoginController@logout');
 
 /* BEGIN - USER PROFILE */
-Route::resources([
+Route::apiResources([
     'profile' => 'API\UserProfileController',
+    'country' => 'API\CountryController',
+    'states' => 'API\StatesController'
 ]);
 /* END - USER PROFILE */

@@ -163,6 +163,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Optimus\ApiConsumer\Provider\LaravelServiceProvider::class,
         Webpatser\Countries\CountriesServiceProvider::class,
+        AdrianMejias\States\StatesServiceProvider::class,
     ],
 
     /*
@@ -213,6 +214,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Countries' => Webpatser\Countries\CountriesFacade::class,
+        'States' => AdrianMejias\States\StatesFacade::class,
     ],
 
 ];
