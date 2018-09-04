@@ -21,3 +21,11 @@ Route::middleware('api')->post('/login', 'Auth\LoginController@login');
 Route::middleware('api')->post('/refresh', 'Auth\LoginController@refresh');
 Route::middleware('api')->post('/register', 'Auth\RegisterController@register');
 Route::middleware('auth:api')->post('/logout', 'Auth\LoginController@logout');
+
+/* BEGIN - USER PROFILE */
+Route::apiResources([
+    'profile' => 'API\UserProfileController',
+    'country' => 'API\CountryController',
+    'states' => 'API\StatesController'
+]);
+/* END - USER PROFILE */

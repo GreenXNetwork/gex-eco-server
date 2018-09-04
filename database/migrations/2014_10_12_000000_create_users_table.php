@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('confirmation_code')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->string('phone')->nullable();
+            $table->string('street_1')->nullable();
+            $table->string('street_2')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
